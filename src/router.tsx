@@ -11,7 +11,7 @@ function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Home />, // Shared layout with the navigation bar
+            element: <Home />, 
             children: [
                 { path: "about", element: <About /> }, // За нас
                 { path: "what-we-do", element: <WhatWeDo /> }, // Какво правим
