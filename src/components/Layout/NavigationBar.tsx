@@ -1,7 +1,7 @@
-import { NavLink } from 'react-router-dom';
-import LogoImage from "../../assets/LogoImage.png"
+import { NavLink } from "react-router-dom";
+import LogoImage from "../../assets/LogoImage.png";
 
-const Header: React.FC = () => {
+const Navigation: React.FC = () => {
     return (
         <header className="bg-white shadow-sm px-20">
             <div className="container mx-auto px-4 flex justify-between items-center py-4">
@@ -17,7 +17,9 @@ const Header: React.FC = () => {
                             <NavLink
                                 to="/about"
                                 className={({ isActive }) =>
-                                    isActive ? 'text-green-500 font-semibold' : 'text-gray-700 hover:text-green-500 transition'
+                                    isActive
+                                        ? "text-green-500 font-semibold"
+                                        : "text-gray-700 hover:text-green-500 transition"
                                 }
                             >
                                 За нас
@@ -27,7 +29,9 @@ const Header: React.FC = () => {
                             <NavLink
                                 to="/what-we-do"
                                 className={({ isActive }) =>
-                                    isActive ? 'text-green-500 font-semibold' : 'text-gray-700 hover:text-green-500 transition'
+                                    isActive
+                                        ? "text-green-500 font-semibold"
+                                        : "text-gray-700 hover:text-green-500 transition"
                                 }
                             >
                                 Какво правим
@@ -37,7 +41,9 @@ const Header: React.FC = () => {
                             <NavLink
                                 to="/news"
                                 className={({ isActive }) =>
-                                    isActive ? 'text-green-500 font-semibold' : 'text-gray-700 hover:text-green-500 transition'
+                                    isActive
+                                        ? "text-green-500 font-semibold"
+                                        : "text-gray-700 hover:text-green-500 transition"
                                 }
                             >
                                 Новини
@@ -47,7 +53,9 @@ const Header: React.FC = () => {
                             <NavLink
                                 to="/resources"
                                 className={({ isActive }) =>
-                                    isActive ? 'text-green-500 font-semibold' : 'text-gray-700 hover:text-green-500 transition'
+                                    isActive
+                                        ? "text-green-500 font-semibold"
+                                        : "text-gray-700 hover:text-green-500 transition"
                                 }
                             >
                                 Ресурси
@@ -57,7 +65,9 @@ const Header: React.FC = () => {
                             <NavLink
                                 to="/get-involved"
                                 className={({ isActive }) =>
-                                    isActive ? 'text-green-500 font-semibold' : 'text-gray-700 hover:text-green-500 transition'
+                                    isActive
+                                        ? "text-green-500 font-semibold"
+                                        : "text-gray-700 hover:text-green-500 transition"
                                 }
                             >
                                 Включи се
@@ -67,7 +77,9 @@ const Header: React.FC = () => {
                             <NavLink
                                 to="/contact"
                                 className={({ isActive }) =>
-                                    isActive ? 'text-green-500 font-semibold' : 'text-gray-700 hover:text-green-500 transition'
+                                    isActive
+                                        ? "text-green-500 font-semibold"
+                                        : "text-gray-700 hover:text-green-500 transition"
                                 }
                             >
                                 Контакти
@@ -80,4 +92,4 @@ const Header: React.FC = () => {
     );
 };
 
-export default Header;
+export default Navigation;
