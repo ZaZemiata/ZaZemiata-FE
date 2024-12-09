@@ -6,13 +6,15 @@ import News from "./components/News/News";
 import Resources from "./components/Resources/Resources";
 import GetInvolved from "./components/GetInvolved/GetInvolved";
 import Contacts from "./components/Contacts/Contacts";
+import RootLayout from "./components/Layout/RootLayout";
 
 function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Home />, 
+            element: <RootLayout />,
             children: [
+                { index: true, element: <Home /> }, // Начало
                 { path: "about", element: <About /> }, // За нас
                 { path: "what-we-do", element: <WhatWeDo /> }, // Какво правим
                 { path: "news", element: <News /> }, // Новини
