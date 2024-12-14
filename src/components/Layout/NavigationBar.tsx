@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import LogoImage from "../../assets/LogoImage.png";
+import { Link } from "react-router-dom";
 
 const Navigation: React.FC = () => {
     return (
@@ -7,7 +8,9 @@ const Navigation: React.FC = () => {
             <div className="container mx-auto px-4 flex justify-between items-center py-4">
                 {/* Logo Section */}
                 <div className="flex items-center">
-                    <img src={LogoImage} alt="За Земята Logo" className="w-[152px] h-auto mr-2" />
+                    <Link to="/">
+                        <img src={LogoImage} alt="За Земята Logo" className="w-[152px] h-auto mr-2" />
+                    </Link>
                 </div>
 
                 {/* Navigation Section */}
