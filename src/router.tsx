@@ -7,6 +7,7 @@ import Resources from "./components/Resources/Resources";
 import GetInvolved from "./components/GetInvolved/GetInvolved";
 import Contacts from "./components/Contacts/Contacts";
 import RootLayout from "./components/Layout/RootLayout";
+import AdminNav from "./components/Admin/AdminNav";
 
 const router = createBrowserRouter(
     [
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
                 { path: "resources", element: <Resources /> }, // Ресурси
                 { path: "get-involved", element: <GetInvolved /> }, // Включи се
                 { path: "contact", element: <Contacts /> }, // Контакти
+                { path: "admin", element: <AdminNav />}
             ],
         },
     ],
