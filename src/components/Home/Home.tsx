@@ -20,6 +20,7 @@ const Home: React.FC = () => {
         (newPage: number) => {
             if (newPage > 0) {
                 setSearchParams({ page: newPage.toString() });
+                window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top smoothly
             }
         },
         [setSearchParams]
