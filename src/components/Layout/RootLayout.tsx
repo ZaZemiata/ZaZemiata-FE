@@ -7,7 +7,7 @@ const RootLayout: React.FC = () => {
         <div className="flex flex-col min-h-screen">
             <Navigation />
 
-            <main className="flex-grow p-4 px-20">
+            <main className="flex-grow flex">
                 <Outlet />
             </main>
             <Footer />
