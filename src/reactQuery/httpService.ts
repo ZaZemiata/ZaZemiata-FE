@@ -42,7 +42,7 @@ async function httpRequest<T, V>(options: RequestOptions<T>): Promise<V> {
     // Throw an error React Query can handle
     if (!response.ok) {
         const error = await response.json().catch(() => ({}));
-        throw { status: response.status, message: error.message || "Network response was not ok" };
+        throw { status: response.status, message: error.error || error.message || "Network response was not ok" };
     }
 
     if (response.status === 204) {
