@@ -44,7 +44,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, totalPages, handlePageCha
                     onClick={() => handlePageChange(i)}
                     className={cn(
                         i === page ? "bg-[#19ad52] text-white" : "bg-[#ebecec] text-[#3b3b3b]",
-                        "text-xs font-normal rounded-lg p-2 "
+                        "text-xs font-normal rounded-lg p-2 min-w-8 min-h-8"
                     )}
                 >
                     {i}
@@ -65,7 +65,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, totalPages, handlePageCha
                 <button
                     key={totalPages}
                     onClick={() => handlePageChange(totalPages)}
-                    className="text-[#3b3b3b] text-xs font-normal rounded-lg bg-[#ebecec] p-2"
+                    className="text-[#3b3b3b] text-xs font-normal rounded-lg bg-[#ebecec] p-2 min-w-8 min-h-8"
                 >
                     {totalPages}
                 </button>
