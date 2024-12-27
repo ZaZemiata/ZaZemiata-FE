@@ -6,8 +6,7 @@ import { CrawledDataFilter } from "@/share/types";
 
 const { get } = httpService();
 
-
-export default function useGetCrawledData({ page, limit }: { page: number; limit: number }) {
+const useGetCrawledData = ({ page, limit }: { page: number; limit: number }) => {
     return useQuery<CrawledDataFilter, Error, CrawledDataFilter, QueryKey>({
         queryKey: [queryKeys.crawledData, page, limit],
         queryFn: () => get<CrawledDataFilter>(urlKeys.get.crawledData, { page, limit }),
@@ -15,4 +14,6 @@ export default function useGetCrawledData({ page, limit }: { page: number; limit
         staleTime: 1000 * 60 * 5,
         gcTime: 1000 * 60 * 10,
     });
-}
+};
+
+export default useGetCrawledData;
