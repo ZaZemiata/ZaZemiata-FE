@@ -19,3 +19,13 @@ export type CrawledDataFilter = {
     pagination: CrawledDataPagination;
     status: "success" | "error";
 };
+
+export type UserDataType = {
+    token: string;
+    is_admin: boolean;
+};
+
+export type LoginFormDataType = {
+    email: string;
+    password: string;
+};
