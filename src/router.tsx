@@ -8,12 +8,18 @@ import GetInvolved from "./components/GetInvolved/GetInvolved";
 import Contacts from "./components/Contacts/Contacts";
 import RootLayout from "./components/Layout/RootLayout";
 import AdminNav from "./components/Admin/AdminNav";
+import Login from "./components/Login/Login";
+import { AuthContextProvider } from "./context/AuthContext";
 
 const router = createBrowserRouter(
     [
         {
             path: "/",
-            element: <RootLayout />,
+            element: (
+                <AuthContextProvider>
+                    <RootLayout />
+                </AuthContextProvider>
+            ),
             children: [
                 { index: true, element: <Home /> }, // Начало
                 { path: "about", element: <About /> }, // За нас
@@ -22,7 +28,8 @@ const router = createBrowserRouter(
                 { path: "resources", element: <Resources /> }, // Ресурси
                 { path: "get-involved", element: <GetInvolved /> }, // Включи се
                 { path: "contact", element: <Contacts /> }, // Контакти
-                { path: "admin", element: <AdminNav />}
+                { path: "admin", element: <AdminNav /> },
+                { path: "login", element: <Login /> }, // Login component
             ],
         },
     ],
