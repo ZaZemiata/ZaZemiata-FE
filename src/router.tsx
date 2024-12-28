@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import WhatWeDo from "./components/WhatWeDo/WhatWeDo";
@@ -13,7 +13,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import Register from "./components/Dashboard/Register/Register";
 import Keywords from "./components/Dashboard/Keywords/Keywords";
 import Settings from "./components/Dashboard/Settings/Settings";
-import { restrictLoginPage } from "./guards";
+import { restrictDashboard, restrictLoginPage } from "./guards";
 
 const router = createBrowserRouter(
     [
@@ -36,7 +36,12 @@ const router = createBrowserRouter(
                 {
                     path: "dashboard",
                     element: <AdminNav />,
+                    loader: restrictDashboard,
                     children: [
+                        {
+                            index: true, // if user goes to /dashboard, redirect to /dashboard/keywords
+                            element: <Navigate to="keywords" replace />,
+                        },
                         { path: "register", element: <Register /> },
                         {
                             path: "keywords",
