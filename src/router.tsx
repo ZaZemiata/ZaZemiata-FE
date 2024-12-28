@@ -13,6 +13,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import Register from "./components/Dashboard/Register/Register";
 import Keywords from "./components/Dashboard/Keywords/Keywords";
 import Settings from "./components/Dashboard/Settings/Settings";
+import { restrictLoginPage } from "./guards";
 
 const router = createBrowserRouter(
     [
@@ -31,7 +32,7 @@ const router = createBrowserRouter(
                 { path: "resources", element: <Resources /> }, // Ресурси
                 { path: "get-involved", element: <GetInvolved /> }, // Включи се
                 { path: "contact", element: <Contacts /> }, // Контакти
-                { path: "login", element: <Login /> }, // Login component
+                { path: "login", element: <Login />, loader: restrictLoginPage }, // Login component
                 {
                     path: "dashboard",
                     element: <AdminNav />,
