@@ -7,9 +7,12 @@ import Resources from "./components/Resources/Resources";
 import GetInvolved from "./components/GetInvolved/GetInvolved";
 import Contacts from "./components/Contacts/Contacts";
 import RootLayout from "./components/Layout/RootLayout";
-import AdminNav from "./components/Admin/AdminNav";
+import AdminNav from "./components/Layout/AdminNav";
 import Login from "./components/Login/Login";
 import { AuthContextProvider } from "./context/AuthContext";
+import Register from "./components/Dashboard/Register/Register";
+import Keywords from "./components/Dashboard/Keywords/Keywords";
+import Settings from "./components/Dashboard/Settings/Settings";
 
 const router = createBrowserRouter(
     [
@@ -28,8 +31,22 @@ const router = createBrowserRouter(
                 { path: "resources", element: <Resources /> }, // Ресурси
                 { path: "get-involved", element: <GetInvolved /> }, // Включи се
                 { path: "contact", element: <Contacts /> }, // Контакти
-                { path: "admin", element: <AdminNav /> },
                 { path: "login", element: <Login /> }, // Login component
+                {
+                    path: "dashboard",
+                    element: <AdminNav />,
+                    children: [
+                        { path: "register", element: <Register /> },
+                        {
+                            path: "keywords",
+                            element: <Keywords />,
+                        },
+                        {
+                            path: "settings",
+                            element: <Settings />,
+                        },
+                    ],
+                },
             ],
         },
     ],
