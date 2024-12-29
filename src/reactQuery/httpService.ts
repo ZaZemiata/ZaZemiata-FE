@@ -1,3 +1,5 @@
+import { getUserData } from "@/util/localStorage";
+
 type MethodTypes = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 interface RequestOptions<T> {
@@ -25,6 +27,12 @@ async function httpRequest<T, V>(options: RequestOptions<T>): Promise<V> {
         credentials: "include",
         headers: fetchHeaders,
     };
+
+    // Add the authorization header if the user is logged in
+    const userData = getUserData();
+    if (userData?.token) {
+        fetchHeaders.set("authorization", `Bearer ${userData.token}`);
+    }
 
     // Add the body to the request
     if (data) {
