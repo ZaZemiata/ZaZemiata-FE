@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCircleXmark } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
@@ -9,19 +9,26 @@ import SeveritySelect from "@/UI/FormComponents/SeveritySelect";
 import { KeywordSubmitType, KeywordType, KeywordUpdateType } from "./types";
 import useUpdateKeyword from "./hooks/useUpdateKeyword";
 import cn from "@/util/cn";
+import { ReactComponent as Pencil } from "@/assets/svgs/pencil.svg";
+import { ReactComponent as Trash } from "@/assets/svgs/trash.svg";
 
 type KeyWordCardProps = KeywordType & { keyWordFilter: string };
 
 const KeyWordCard = (props: KeyWordCardProps) => {
-    const [edit, setEdit] = useState(false);
+    // Mode state for view, edit, delete modes. Default is "none"
+    const [mode, setMode] = useState<"none" | "view" | "edit" | "delete">("none");
+
+    // State to store the original data
     const [originalData, setOriginalData] = useState<KeywordSubmitType>({
         word: props.word,
         priority: props.priority,
         active: props.active,
     });
 
+    // useUpdateKeyword hook to update the keyword
     const { mutate: updateKeyword, isError, error } = useUpdateKeyword();
 
+    // react-hook-form hook to handle
     const {
         register,
         handleSubmit,
@@ -34,34 +41,29 @@ const KeyWordCard = (props: KeyWordCardProps) => {
         defaultValues: { ...props },
     });
 
+    // submit function to update the keyword
     const onSubmit = (data: KeywordSubmitType) => {
         const updateData: KeywordUpdateType = { ...data, id: Number(props.id) };
         updateKeyword(updateData, {
             onSuccess: () => {
-                setOriginalData(data); // Update the original data
-                setEdit(false); // Exit edit mode
+                setOriginalData(data); // Save updated data
+                setMode("none"); // Exit edit mode
             },
         });
     };
 
-    const onCancelUpdate = () => {
-        setEdit(false);
+    // function to handle the cancellation of the edit and delete modes
+    const onCancel = () => {
+        setMode("view");
         setValue("word", originalData.word);
         setValue("priority", originalData.priority);
         setValue("active", originalData.active);
     };
 
-    const toggleEditMode = () => {
-        if (edit) {
-            onCancelUpdate(); // Cancel changes if exiting edit mode
-        } else {
-            setEdit(true);
-        }
-    };
-
+    // function to handle the change of the active status
     const handleActiveChange = (value: boolean) => {
-        setValue("active", value); // Update the "active" field in the form
-        trigger("active"); // Trigger validation for the field
+        setValue("active", value);
+        trigger("active");
     };
 
     return (
@@ -69,12 +71,16 @@ const KeyWordCard = (props: KeyWordCardProps) => {
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-[5rem_1fr_10rem_5rem_1fr] items-center p-4 border-b border-gray-200"
         >
-            <input type="checkbox" checked={edit} onChange={toggleEditMode} />
-            <div className="relative w-full">
+            <input type="checkbox" checked={mode !== "none"} onChange={() => setMode("view")} />
+            <div className="relative w-full px-5">
                 <input
                     type="text"
                     {...register("word")}
-                    className="w-full bg-transparent outline-none border-none relative z-10"
+                    className={cn(
+                        mode === "edit" ? "border-b border-black" : "border-none",
+                        "w-full bg-transparent outline-none  relative z-10"
+                    )}
+                    disabled={mode !== "edit"}
                 />
                 {errors.word && <span className="text-sm text-red-500">{errors.word.message}</span>}
             </div>
@@ -83,10 +89,11 @@ const KeyWordCard = (props: KeyWordCardProps) => {
                 showLabel={false}
                 error={errors.priority?.message}
                 {...register("priority", { required: "Моля изберете тежест." })}
-                disabled={!edit}
+                disabled={mode !== "edit"}
+                containerClassName="px-5"
             />
             <input type="checkbox" className="hidden" {...register("active")} />
-            {edit ? (
+            {mode === "edit" ? (
                 <div className="w-full flex justify-center items-center space-x-2">
                     <button type="button" onClick={() => handleActiveChange(true)}>
                         <FaCheckCircle
@@ -98,16 +105,13 @@ const KeyWordCard = (props: KeyWordCardProps) => {
                     </button>
                     <button type="button" onClick={() => handleActiveChange(false)}>
                         <FaCircleXmark
-                            className={cn(
-                                getValues("active") === false ? "opacity-100" : "opacity-50",
-                                "text-red-500"
-                            )}
+                            className={cn(getValues("active") === false ? "opacity-100" : "opacity-50", "text-red-500")}
                         />
                     </button>
                 </div>
             ) : props.active ? (
                 <div className="flex justify-center items-center">
-                    <FaCheckCircle className="text-green-500 " />
+                    <FaCheckCircle className="text-green-500" />
                 </div>
             ) : (
                 <div className="flex justify-center items-center">
@@ -116,23 +120,58 @@ const KeyWordCard = (props: KeyWordCardProps) => {
             )}
 
             <div>
-                {edit && (
-                    <>
-                        <div className="flex justify-end items-center space-x-2">
-                            <button type="submit">update</button>
-                            <button type="button" onClick={onCancelUpdate}>
-                                cancel
-                            </button>
-                        </div>
-                        {isError && (
-                            <div className="flex justify-end">
-                                <span className="text-red-500 text-sm">{error.message}</span>
-                            </div>
-                        )}
-                    </>
+                {mode === "view" && (
+                    <div className="flex justify-end items-center space-x-2">
+                        <button type="button" onClick={() => setMode("edit")} aria-label="Edit">
+                            <Pencil />
+                        </button>
+                        <button type="button" onClick={() => setMode("delete")} aria-label="Delete">
+                            <Trash />
+                        </button>
+                    </div>
+                )}
+                {mode === "edit" && (
+                    <div className="flex justify-end items-center space-x-2">
+                        <button
+                            type="submit"
+                            className="p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4"
+                        >
+                            Обнови
+                        </button>
+                        <button
+                            type="button"
+                            onClick={onCancel}
+                            className="p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4"
+                        >
+                            Отказ
+                        </button>
+                    </div>
+                )}
+                {mode === "delete" && (
+                    <div className="flex justify-end items-center space-x-2">
+                        <button
+                            type="button"
+                            className="p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4"
+                        >
+                            Изтрии
+                        </button>
+                        <button
+                            type="button"
+                            onClick={onCancel}
+                            className="p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4"
+                        >
+                            Отказ
+                        </button>
+                    </div>
+                )}
+                {isError && (
+                    <div className="flex justify-end">
+                        <span className="text-red-500 text-sm">{error.message}</span>
+                    </div>
                 )}
             </div>
         </form>
     );
 };
+
 export default KeyWordCard;
