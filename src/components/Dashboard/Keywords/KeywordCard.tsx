@@ -58,7 +58,7 @@ const KeyWordCard = (props: KeyWordCardProps) => {
 
     // function to handle the cancellation of the edit and delete modes
     const onCancel = () => {
-        setMode("view");
+        setMode("none");
         setValue("word", originalData.word);
         setValue("priority", originalData.priority);
         setValue("active", originalData.active);
@@ -70,19 +70,39 @@ const KeyWordCard = (props: KeyWordCardProps) => {
         trigger("active");
     };
 
+    // Define regex and parts conditionally
+    const regex = props.keyWordFilter.trim() ? new RegExp(`(${props.keyWordFilter})`, "gi") : null;
+    const parts = regex ? props.word.split(regex) : [props.word]; // Display the word as-is if the filter is empty
+
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-[5rem_1fr_10rem_5rem_1fr] items-center p-4 border-b border-gray-200"
+            className="grid grid-cols-[5rem_1fr_10rem_5rem_1fr] items-center rounded-xl p-4 border-b border-gray-200 group hover:bg-slate-200"
         >
             <input type="checkbox" checked={mode !== "none"} onChange={toggleViewMode} />
             <div className="relative w-full px-5">
+                <div
+                    className={cn(mode === "edit" ? "hidden" : "pointer-events-none text-transparent")}
+                    aria-hidden="true"
+                >
+                    {parts.map((part, index) =>
+                        regex && regex.test(part) ? (
+                            <span key={index} className="bg-blue-200 text-black">
+                                {part}
+                            </span>
+                        ) : (
+                            <span key={index} className="text-black">
+                                {part}
+                            </span>
+                        )
+                    )}
+                </div>
                 <input
                     type="text"
                     {...register("word")}
                     className={cn(
-                        mode === "edit" ? "border-b border-black" : "border-none",
-                        "w-full bg-transparent outline-none  relative z-10"
+                        mode === "edit" ? "border-b border-black" : "border-none hidden",
+                        "w-full bg-transparent outline-none relative z-10"
                     )}
                     disabled={mode !== "edit"}
                 />
@@ -122,20 +142,26 @@ const KeyWordCard = (props: KeyWordCardProps) => {
                     <FaCircleXmark className="text-red-500" />
                 </div>
             )}
-
             <div>
-                {mode === "view" && (
-                    <div className="flex justify-end items-center space-x-2">
-                        <button type="button" onClick={() => setMode("edit")} aria-label="Edit">
-                            <Pencil />
-                        </button>
-                        <button type="button" onClick={() => setMode("delete")} aria-label="Delete">
-                            <Trash />
-                        </button>
-                    </div>
-                )}
+                <div
+                    className={cn(
+                        mode === "none"
+                            ? "group-hover:opacity-100 opacity-0"
+                            : mode === "view"
+                            ? "opacity-100"
+                            : "hidden",
+                        "flex justify-end items-center space-x-2 px-5 transition-opacity"
+                    )}
+                >
+                    <button type="button" onClick={() => setMode("edit")} aria-label="Edit">
+                        <Pencil />
+                    </button>
+                    <button type="button" onClick={() => setMode("delete")} aria-label="Delete">
+                        <Trash />
+                    </button>
+                </div>
                 {mode === "edit" && (
-                    <div className="flex justify-end items-center space-x-2">
+                    <div className="flex justify-end items-center space-x-2 px-5">
                         <button
                             type="submit"
                             className="p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4"
@@ -152,7 +178,7 @@ const KeyWordCard = (props: KeyWordCardProps) => {
                     </div>
                 )}
                 {mode === "delete" && (
-                    <div className="flex justify-end items-center space-x-2">
+                    <div className="flex justify-end items-center space-x-2 px-5">
                         <button
                             type="button"
                             className="p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4"
