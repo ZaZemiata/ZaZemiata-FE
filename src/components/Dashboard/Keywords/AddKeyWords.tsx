@@ -12,9 +12,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useCreateKeyword from "./hooks/useCreateKeyword";
 import { addKeywordSchema } from "@/share/schemas/keywordSchema";
 
-
 const AddKeyWords = () => {
-    const [activity, setActivity] = useState<null | boolean>(null);
+    const [activity, setActivity] = useState(true);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { mutate: addKeyWord, isError, error, isSuccess } = useCreateKeyword();
@@ -28,7 +27,7 @@ const AddKeyWords = () => {
         setValue,
     } = useForm<KeywordSubmitType>({
         resolver: zodResolver(addKeywordSchema),
-        defaultValues: { word: "", priority: undefined, active: null },
+        defaultValues: { word: "", priority: 'MEDIUM', active: true },
     });
 
     // submit function to login the user
