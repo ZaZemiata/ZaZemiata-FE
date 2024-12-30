@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCircleXmark } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
@@ -12,11 +12,19 @@ import cn from "@/util/cn";
 import { ReactComponent as Pencil } from "@/assets/svgs/pencil.svg";
 import { ReactComponent as Trash } from "@/assets/svgs/trash.svg";
 
-type KeyWordCardProps = KeywordType & { keyWordFilter: string };
+type KeyWordCardProps = KeywordType & { keyWordFilter: string; checked: boolean };
 
 const KeyWordCard = (props: KeyWordCardProps) => {
     // Mode state for view, edit, delete modes. Default is "none"
     const [mode, setMode] = useState<"none" | "view" | "edit" | "delete">("none");
+
+    useEffect(() => {
+        if (props.checked) {
+            setMode("view");
+        } else {
+            setMode("none");
+        }
+    }, [props.checked]);
 
     const toggleViewMode = () => {
         setMode(mode === "view" ? "none" : "view");
