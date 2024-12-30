@@ -18,6 +18,10 @@ const KeyWordCard = (props: KeyWordCardProps) => {
     // Mode state for view, edit, delete modes. Default is "none"
     const [mode, setMode] = useState<"none" | "view" | "edit" | "delete">("none");
 
+    const toggleViewMode = () => {
+        setMode(mode === "view" ? "none" : "view");
+    };
+
     // State to store the original data
     const [originalData, setOriginalData] = useState<KeywordSubmitType>({
         word: props.word,
@@ -71,7 +75,7 @@ const KeyWordCard = (props: KeyWordCardProps) => {
             onSubmit={handleSubmit(onSubmit)}
             className="grid grid-cols-[5rem_1fr_10rem_5rem_1fr] items-center p-4 border-b border-gray-200"
         >
-            <input type="checkbox" checked={mode !== "none"} onChange={() => setMode("view")} />
+            <input type="checkbox" checked={mode !== "none"} onChange={toggleViewMode} />
             <div className="relative w-full px-5">
                 <input
                     type="text"
