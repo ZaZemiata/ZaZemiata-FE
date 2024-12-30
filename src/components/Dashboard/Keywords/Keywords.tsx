@@ -23,10 +23,10 @@ const Keywords = () => {
             </ul>
             <div className="grid grid-cols-[5rem_1fr_10rem_5rem_1fr] items-center p-4 border-b border-gray-200">
                 <input type="checkbox" />
-                <p>Ключова дума</p>
-                <p>Тежест</p>
-                <p>Активност</p>
-                <p>Действия</p>
+                <p className="px-5">Ключова дума</p>
+                <p className="px-5">Тежест</p>
+                <p className="px-5">Активност</p>
+                <p className="px-5 text-end">Действия</p>
             </div>
             {keywords &&
                 keywords.map((keyword) => <KeyWordCard key={keyword.id} {...keyword} keyWordFilter={keywordFilter} />)}
