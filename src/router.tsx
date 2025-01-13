@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import WhatWeDo from "./components/WhatWeDo/WhatWeDo";
@@ -7,12 +7,23 @@ import Resources from "./components/Resources/Resources";
 import GetInvolved from "./components/GetInvolved/GetInvolved";
 import Contacts from "./components/Contacts/Contacts";
 import RootLayout from "./components/Layout/RootLayout";
+import AdminNav from "./components/Layout/AdminNav";
+import Login from "./components/Login/Login";
+import { AuthContextProvider } from "./context/AuthContext";
+import Register from "./components/Dashboard/Register/Register";
+import Keywords from "./components/Dashboard/Keywords/Keywords";
+import Settings from "./components/Dashboard/Settings/Settings";
+import { restrictDashboard, restrictLoginPage } from "./guards";
 
 const router = createBrowserRouter(
     [
         {
             path: "/",
-            element: <RootLayout />,
+            element: (
+                <AuthContextProvider>
+                    <RootLayout />
+                </AuthContextProvider>
+            ),
             children: [
                 { index: true, element: <Home /> }, // Начало
                 { path: "about", element: <About /> }, // За нас
@@ -21,6 +32,27 @@ const router = createBrowserRouter(
                 { path: "resources", element: <Resources /> }, // Ресурси
                 { path: "get-involved", element: <GetInvolved /> }, // Включи се
                 { path: "contact", element: <Contacts /> }, // Контакти
+                { path: "login", element: <Login />, loader: restrictLoginPage }, // Login component
+                {
+                    path: "dashboard",
+                    element: <AdminNav />,
+                    loader: restrictDashboard,
+                    children: [
+                        {
+                            index: true, // if user goes to /dashboard, redirect to /dashboard/keywords
+                            element: <Navigate to="keywords" replace />,
+                        },
+                        { path: "register", element: <Register /> },
+                        {
+                            path: "keywords",
+                            element: <Keywords />,
+                        },
+                        {
+                            path: "settings",
+                            element: <Settings />,
+                        },
+                    ],
+                },
             ],
         },
     ],

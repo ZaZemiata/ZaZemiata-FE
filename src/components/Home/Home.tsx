@@ -1,32 +1,49 @@
-import InfoCard from "./InfoCard";
+import React, { useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 
-const mockData = [
-    {
-        id: "1",
-        title: "Уведомление с вх. № АО-5745/13.11.2024 г.",
-        contractor: "Риосов-Русе",
-        date: "13.11.2024",
-        text: `В РИОСВ-Русе е внесено уведомление с вх. № АО-5745/13.11.2024 г. за инвестиционно предложение за „Увеличаване капацитета за 
-        съхранение на неопасни торове на Складова база за съхранение на пакетирани минерални торове в с. Долна Студена, общ. Ценовоˮ, с 
-        местоположение УПИ I-503, кв. 41 по плана на с. Долна Студена, общ. Ценов .и възложител „Лат Найтроджен Българияˮ ЕООД`,
-    },
-    {
-        id: "2",
-        title: "Уведомление с вх. № AO-57335/13.11.2024 г.",
-        contractor: "Русе",
-        date: "10.10.2023",
-        text: `В Русе е внесено уведомление с вх. № AO-57335/13.11.2024 г. за инвестиционно предложение за „Промяна на технологичния процес
-         в съществуваща инсталация за производство на хранителни продукти в с. Липник, общ. Ценовоˮ, с местоположение УПИ І-503, кв. 41 по 
-         плана на с. Липник, общ. Ценово и възложител „Лат Найтроджен Българияˮ ЕООД`,
-    },
-];
+import useGetCrawledData from "./hooks/useGetCrawledData";
+import InfoCard from "./InfoCard";
+import Pagination from "./Pagination";
 
 const Home: React.FC = () => {
+    const limit = 10;
+
+    // Get the current page from the URL
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = Number(searchParams.get("page")) || 1;
+
+    // Fetch the data
+    const { data: crawledData, isError, isPlaceholderData } = useGetCrawledData({ page, limit });
+
+    // Function to handle the page change
+    const handlePageChange = useCallback(
+        (newPage: number) => {
+            if (newPage > 0) {
+                setSearchParams({ page: newPage.toString() });
+                window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top smoothly
+            }
+        },
+        [setSearchParams]
+    );
+
     return (
-        <div className="flex flex-col items-center gap-6 my-6">
-            {mockData.map((mock) => (
-                <InfoCard key={mock.id} {...mock} />
-            ))}
+        <div className="flex flex-col items-center gap-6 my-6 max-w-[75rem] m-auto relative">
+            {/* TODO: Add loading spinner */}
+            {isPlaceholderData && <div className="absolute top-10">Loading...</div>}
+            {/* TODO: Add error  */}
+            {isError && <div>Error loading data</div>}
+            {crawledData && (
+                <div className="flex flex-col gap-4">
+                    {crawledData.data.map((data) => (
+                        <InfoCard key={data.id} {...data} />
+                    ))}
+                    <Pagination
+                        handlePageChange={handlePageChange}
+                        page={page}
+                        totalPages={crawledData.pagination.totalPages}
+                    />
+                </div>
+            )}
         </div>
     );
 };
