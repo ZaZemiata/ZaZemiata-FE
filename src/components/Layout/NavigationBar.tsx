@@ -7,7 +7,7 @@ import { FormEvent } from "react";
 
 const Navigation: React.FC = () => {
     // get the login data from the context
-    const { loginData } = useLoginData();
+    const { userData } = useLoginData();
     // get the logout function from the useLogout hook
     const { logout } = useLogout();
 
@@ -101,7 +101,7 @@ const Navigation: React.FC = () => {
                                 Контакти
                             </NavLink>
                         </li>
-                        {loginData && (
+                        {userData && (
                             <>
                                 <li>
                                     <NavLink

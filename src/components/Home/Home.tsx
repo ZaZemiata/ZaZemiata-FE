@@ -32,7 +32,7 @@ const Home: React.FC = () => {
             {isPlaceholderData && <div className="absolute top-10">Loading...</div>}
             {/* TODO: Add error  */}
             {isError && <div>Error loading data</div>}
-            {crawledData && (
+            {crawledData && crawledData.data && (
                 <div className="flex flex-col gap-4">
                     {crawledData.data.map((data) => (
                         <InfoCard key={data.id} {...data} />

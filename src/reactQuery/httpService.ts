@@ -1,4 +1,4 @@
-import { getUserData } from "@/util/localStorage";
+import { getStorageUserData } from "@/util/localStorage";
 
 type MethodTypes = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -29,7 +29,7 @@ async function httpRequest<T, V>(options: RequestOptions<T>): Promise<V> {
     };
 
     // Add the authorization header if the user is logged in
-    const userData = getUserData();
+    const userData = getStorageUserData();
     if (userData?.token) {
         fetchHeaders.set("authorization", `Bearer ${userData.token}`);
     }

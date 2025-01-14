@@ -1,12 +1,12 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
 import { UserDataType } from '@/share/types';
-import { clearUserData, getUserData, setUserData } from '@/util/localStorage';
+import { clearStorageUserData, getStorageUserData, setStorageUserData } from '@/util/localStorage';
 
 type AuthContextValueType = {
-    loginData: UserDataType | undefined;
-    setLoginData: (userData: UserDataType) => void;
-    clearLoginData: () => void;
+    userData: UserDataType | undefined;
+    setUserData: (userData: UserDataType) => void;
+    clearUserData: () => void;
 };
 
 const AuthContext = createContext<AuthContextValueType | null>(null);
@@ -23,26 +23,26 @@ export const useLoginData = () => {
 
 export const AuthContextProvider = ({ children }: PropsWithChildren<object>) => {
     // get the login data from the local storage and set it in the state
-    const [loginData, setLoginDataRaw] = useState<UserDataType | undefined>(() =>
-        getUserData()
+    const [userData, setUserDataRaw] = useState<UserDataType | undefined>(() =>
+        getStorageUserData()
     );
 
     // set the login data in the state and local storage 
-    const setLoginData = (loginResponseData: UserDataType) => {
-        setLoginDataRaw(loginResponseData);
-        setUserData(loginResponseData);
+    const setUserData = (loginResponseData: UserDataType) => {
+        setUserDataRaw(loginResponseData);
+        setStorageUserData(loginResponseData);
     };
 
     // clear the login data from the state and local storage
-    const clearLoginData = () => {
-        setLoginDataRaw(undefined);
-        clearUserData();
+    const clearUserData = () => {
+        setUserDataRaw(undefined);
+        clearStorageUserData();
     };
 
     // return the AuthContext.Provider with the values
     return (
         <AuthContext.Provider
-            value={{ loginData, clearLoginData, setLoginData }}
+            value={{ userData, clearUserData, setUserData }}
         >
             {children}
         </AuthContext.Provider>

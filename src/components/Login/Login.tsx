@@ -1,12 +1,13 @@
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import { ReactComponent as Logo } from "@/assets/svgs/login_logo.svg";
 import { ReactComponent as Mail } from "@/assets/svgs/mail.svg";
 import { ReactComponent as Eye } from "@/assets/svgs/eye.svg";
-import FormInput from "@/UI/FormComponents/FormInput";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { ReactComponent as EyeClose } from "@/assets/svgs/eyeClose.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/share/schemas/authSchemas";
+import FormInput from "@/UI/FormComponents/FormInput";
 import useLogin from "@/reactQuery/hooks/useLogin";
 
 type LoginFormDataType = {
@@ -73,9 +74,9 @@ const Login = () => {
                                 />
                             ) : (
                                 // TODO: change the icon with svg
-                                <AiOutlineEyeInvisible
+                                <EyeClose
                                     onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 scale-150 transform text-welcomeMsgColor"
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 scale-150 transform text-welcomeMsgColor w-4 h-3"
                                 />
                             )
                         }
