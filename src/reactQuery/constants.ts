@@ -8,6 +8,7 @@ export const urlKeys = {
     },
     post: {
         login: "/login",
+        register: "/register",
         addKeyWord: "/api/keyword/add"
     },
     patch: {

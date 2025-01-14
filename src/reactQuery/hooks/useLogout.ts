@@ -4,7 +4,7 @@ import { useLoginData } from "@/context/AuthContext";
 
 const useLogout = () => {
     // get the clearLoginData function from the AuthContext
-    const { clearLoginData } = useLoginData();
+    const { clearUserData } = useLoginData();
 
     // get the navigate and location hooks from react-router-dom
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ const useLogout = () => {
     const pathnames = location.pathname.split("/").filter((x) => x);
 
     const logout = () => {
-        clearLoginData();
+        clearUserData();
         // if the user is on the dashboard page, navigate to home page
         if (pathnames[0] === "dashboard") {
             navigate("/");

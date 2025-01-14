@@ -1,73 +1,120 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { ReactComponent as Eye } from "@/assets/svgs/eye.svg";
+import { ReactComponent as Mail } from "@/assets/svgs/mail.svg";
+import FormInput from "@/UI/FormComponents/FormInput";
+import { registerSchema } from "@/share/schemas/authSchemas"; // Define validation schema
+import useRegister from "@/reactQuery/hooks/useRegister";
+import { RegisterFormDataType } from "@/share/types";
 
 const Register: React.FC = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  // Hook to manage password visibility
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+
+  // Register mutation
+  const { mutate: registerUser, error, isError, isPending } = useRegister();
+
+  // react-hook-form
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    formState: { errors },
+  } = useForm<RegisterFormDataType>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  // Submit handler
+  const onSubmit: SubmitHandler<RegisterFormDataType> = (data) => {
+    console.log('it is ok');
+    
+    registerUser(data);
+  };
 
   return (
-    <div className="flex justify-center m-8">
-        <div className="mt-8 flex flex-col items-start space-y-4 w-[30%] ">
-        {/* Email Field */}
-        <label className="flex flex-col w-full">
-            <span className="mb-2 text-sm font-medium">Email</span>
-            <div className="relative">
-            <input
-                type="email"
-                placeholder="john.doe@mail.com"
-                className="w-full px-4 py-2 bg-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
-            <FontAwesomeIcon
-        icon={faEnvelope}
-        className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400"
-        />
-            </div>
-        </label>
+    <div className="flex flex-grow items-center justify-center  overflow-hidden">
+      <div className="w-[30%] m-10">
 
-        {/* Password Field */}
-        <label className="flex flex-col w-full">
-            <span className="mb-2 text-sm font-medium">Password</span>
-            <div className="relative">
-            <input
-                type={passwordVisible ? "text" : "password"}
-                placeholder="6 characters"
-                className="w-full px-4 py-2 bg-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
-            <button
-                type="button"
-                className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 focus:outline-none"
-                onClick={() => setPasswordVisible(!passwordVisible)}
-            >
-                <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
-            </button>
-            </div>
-        </label>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
+          {/* Email Field */}
+          <FormInput
+            disabled={isPending}
+            error={errors.email?.message}
+            register={register}
+            trigger={trigger}
+            field="email"
+            labelName="Електронна поща"
+            placeholder="John.doe@mail.com"
+            icon={
+              <Mail className="absolute right-4 top-1/2 -translate-y-1/2 scale-150 transform text-welcomeMsgColor w-4 h-4" />
+            }
+          />
 
-        {/* Confirm Password Field */}
-        <label className="flex flex-col w-full">
-            <span className="mb-2 text-sm font-medium">Confirm Password</span>
-            <div className="relative">
-            <input
-                type={confirmPasswordVisible ? "text" : "password"}
-                placeholder="6 characters"
-                className="w-full px-4 py-2 bg-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
-            <button
-                type="button"
-                className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 focus:outline-none"
-                onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
-            >
-                <FontAwesomeIcon icon={confirmPasswordVisible ? faEyeSlash : faEye} />
-            </button>
-            </div>
-        </label>
+          {/* Password Field */}
+          <FormInput
+            disabled={isPending}
+            error={errors.password?.message}
+            register={register}
+            trigger={trigger}
+            field="password"
+            labelName="Парола"
+            placeholder="********"
+            type={isPasswordVisible ? "text" : "password"}
+            icon={
+              isPasswordVisible ? (
+                <Eye
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 scale-150 transform text-welcomeMsgColor w-4 h-3"
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 scale-150 transform text-welcomeMsgColor"
+                />
+              )
+            }
+          />
 
-        {/* Sign-Up Button */}
-        <button className="w-full px-6 py-2 mt-4 text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none">
-            Sign Up
-        </button>
-        </div>
+          {/* Confirm Password Field */}
+          <FormInput
+            disabled={isPending}
+            error={errors.repassword?.message}
+            register={register}
+            trigger={trigger}
+            field="repassword"
+            labelName="Потвърдете Парола"
+            placeholder="********"
+            type={isConfirmPasswordVisible ? "text" : "password"}
+            icon={
+              isConfirmPasswordVisible ? (
+                <Eye
+                  onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 scale-150 transform text-welcomeMsgColor w-4 h-3"
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 scale-150 transform text-welcomeMsgColor"
+                />
+              )
+            }
+          />
+
+          {/* Sign-Up Button */}
+          <button
+            className="w-full p-3 bg-[#19AD52] text-black hover:bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex hover:text-[#f9f8f7] text-sm font-medium leading-4 mt-4"
+            disabled={isPending}
+          >
+            Регистрация
+          </button>
+
+          {/* Error Handling */}
+          {isError && <span className="text-red-500 text-sm">{error?.message}</span>}
+        </form>
+      </div>
     </div>
   );
 };
