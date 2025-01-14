@@ -28,9 +28,7 @@ const Register: React.FC = () => {
   });
 
   // Submit handler
-  const onSubmit: SubmitHandler<RegisterFormDataType> = (data) => {
-    console.log('it is ok');
-    
+  const onSubmit: SubmitHandler<RegisterFormDataType> = (data) => { 
     registerUser(data);
   };
 
@@ -87,7 +85,7 @@ const Register: React.FC = () => {
             field="repassword"
             labelName="Потвърдете Парола"
             placeholder="********"
-            type={isConfirmPasswordVisible ? "text" : "password"}
+            type={isConfirmPasswordVisible ? "text" : "repassword"}
             icon={
               isConfirmPasswordVisible ? (
                 <Eye
