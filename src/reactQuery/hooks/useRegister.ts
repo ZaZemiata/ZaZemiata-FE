@@ -1,12 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-
-import { urlKeys } from "@/reactQuery/constants";
-import { useLoginData } from "@/context/AuthContext";
-import httpService from "@/reactQuery/httpService";
-import { LoginFormDataType, UserDataType } from "@/share/types";
-
-const useLogin = () => {
+const Register = () => {
     // get the post function from the httpService
     const { post } = httpService();
     const navigate = useNavigate();
@@ -27,5 +19,4 @@ const useLogin = () => {
         },
     });
 };
-
-export default useLogin;
+export default Register;
