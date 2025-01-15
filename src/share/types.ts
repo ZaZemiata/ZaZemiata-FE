@@ -5,6 +5,11 @@ export type CrawledData = {
     date: Date;
     created_at: Date;
     source_url_id: string;
+    SourceUrls: {
+        Sources: {
+            display_name: string;
+        };
+    };
 };
 
 type CrawledDataPagination = {
