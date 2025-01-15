@@ -40,7 +40,7 @@ const Keywords = () => {
                 {searchError && <p className="text-red-500 text-nowrap">{searchError}</p>}
             </ul>
             <div className="grid grid-cols-[5rem_1fr_10rem_5rem_1fr] items-center p-4 border-b border-gray-200">
-                <input type="checkbox" checked={isCheckAll} onClick={() => setIsCheckAll((prev) => !prev)} />
+                <input type="checkbox" checked={isCheckAll} onChange={() => setIsCheckAll((prev) => !prev)} />
                 <p className="px-5">Ключова дума</p>
                 <p className="px-5">Тежест</p>
                 <p className="px-5">Активност</p>
