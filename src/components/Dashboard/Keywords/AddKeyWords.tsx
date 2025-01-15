@@ -1,16 +1,17 @@
-import { ReactComponent as PlusCircle } from "@/assets/svgs/plus-circle.svg";
+import { useCallback, useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import cn from "@/util/cn";
+
 import Modal from "@/UI/Components/Modal";
 import SeveritySelect from "@/UI/FormComponents/SeveritySelect";
-import cn from "@/util/cn";
-import { useCallback, useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FaCheckCircle } from "react-icons/fa";
-import { FaCircleXmark } from "react-icons/fa6";
 import { KeywordSubmitType } from "./types";
 import FormInput from "@/UI/FormComponents/FormInput";
-import { zodResolver } from "@hookform/resolvers/zod";
 import useCreateKeyword from "./hooks/useCreateKeyword";
 import { addKeywordSchema } from "@/share/schemas/keywordSchema";
+import { ReactComponent as AddIconButtons } from "@/assets/svgs/addIconButtons.svg";
+import { FaCheckCircle } from "react-icons/fa";
+import { FaCircleXmark } from "react-icons/fa6";
 
 const AddKeyWords = () => {
     const [activity, setActivity] = useState(true);
@@ -61,7 +62,7 @@ const AddKeyWords = () => {
     return (
         <>
             <button onClick={() => setIsModalOpen(true)}>
-                <PlusCircle className="bg-black rounded-full" />
+                <AddIconButtons className="w-9 h-9" />
             </button>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mx-5">
