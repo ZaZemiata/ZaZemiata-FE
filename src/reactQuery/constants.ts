@@ -13,6 +13,9 @@ export const urlKeys = {
     },
     patch: {
         updateKeyword: "/api/keyword/update"
+    },
+    delete: {
+        deleteKeyword: "/api/keyword/delete/"
     }
 };
 
