@@ -16,7 +16,7 @@ const AddKeyWords = () => {
     const [activity, setActivity] = useState(true);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { mutate: addKeyWord, isError, error, isSuccess } = useCreateKeyword();
+    const { mutate: addKeyWord, isSuccess } = useCreateKeyword();
 
     const {
         register,
@@ -105,20 +105,19 @@ const AddKeyWords = () => {
                         {errors.active && <p className="text-red-500 absolute bottom-0">{errors.active.message}</p>}
                     </div>
                     <input type="checkbox" className="hidden" {...register("active")} />
-                    {isError && <span className="text-red-500 text-sm">{error.message}</span>}
                     <div className="flex justify-between mx-10 gap-3">
+                        <button
+                            type="submit"
+                            className="w-full p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4 mt-4 mb-8"
+                        >
+                            Добавяне
+                        </button>
                         <button
                             type="button"
                             className="w-full p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4 mt-4 mb-8"
                             onClick={() => handleClosingModal()}
                         >
                             Отказ
-                        </button>
-                        <button
-                            type="submit"
-                            className="w-full p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4 mt-4 mb-8"
-                        >
-                            Добавяне
                         </button>
                     </div>
                 </form>

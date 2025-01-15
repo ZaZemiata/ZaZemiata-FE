@@ -16,7 +16,7 @@ const Register = () => {
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
     // Register mutation
-    const { mutate: registerUser, error, isError, isPending } = useRegister();
+    const { mutate: registerUser, isPending } = useRegister();
 
     // react-hook-form
     const {
@@ -108,9 +108,6 @@ const Register = () => {
                     >
                         Регистрация
                     </button>
-
-                    {/* Error Handling */}
-                    {isError && <span className="text-red-500 text-sm">{error?.message}</span>}
                 </form>
             </div>
         </div>

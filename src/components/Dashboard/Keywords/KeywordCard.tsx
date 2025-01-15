@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { FaCircleXmark } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
+import cn from "@/util/cn";
 
 import { addKeywordSchema } from "@/share/schemas/keywordSchema";
 import SeveritySelect from "@/UI/FormComponents/SeveritySelect";
 import { KeywordSubmitType, KeywordType, KeywordUpdateType } from "./types";
 import useUpdateKeyword from "./hooks/useUpdateKeyword";
-import cn from "@/util/cn";
 import { ReactComponent as Pencil } from "@/assets/svgs/pencil.svg";
 import { ReactComponent as Trash } from "@/assets/svgs/trash.svg";
 import useDeleteKeyword from "./hooks/useDeleteKeyword";
@@ -39,7 +39,7 @@ const KeyWordCard = (props: KeyWordCardProps) => {
     });
 
     // useUpdateKeyword hook to update the keyword
-    const { mutate: updateKeyword, isError, error } = useUpdateKeyword();
+    const { mutate: updateKeyword } = useUpdateKeyword();
 
     // useDeleteKeyword hook to delete the keyword
     const { mutate: deleteKeyword } = useDeleteKeyword();
@@ -193,10 +193,10 @@ const KeyWordCard = (props: KeyWordCardProps) => {
                     <div className="flex justify-end items-center space-x-2 px-5">
                         <button
                             type="button"
-                            onClick={()=> deleteKeyword(props.id)}
+                            onClick={() => deleteKeyword(props.id)}
                             className="p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4"
                         >
-                            Изтрии
+                            Изтрий
                         </button>
                         <button
                             type="button"
@@ -205,11 +205,6 @@ const KeyWordCard = (props: KeyWordCardProps) => {
                         >
                             Отказ
                         </button>
-                    </div>
-                )}
-                {isError && (
-                    <div className="flex justify-end">
-                        <span className="text-red-500 text-sm">{error.message}</span>
                     </div>
                 )}
             </div>

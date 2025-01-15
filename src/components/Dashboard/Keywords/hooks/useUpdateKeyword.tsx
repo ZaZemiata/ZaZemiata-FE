@@ -4,18 +4,18 @@ import { queryKeys, urlKeys } from "@/reactQuery/constants";
 import httpService from "@/reactQuery/httpService";
 import { useMutation } from "@tanstack/react-query";
 import { KeywordSubmitType } from "../types";
+import toast from "react-hot-toast";
 
 const { patch } = httpService();
 const useUpdateKeyword = () => {
     return useMutation({
-        mutationFn: (data: KeywordSubmitType) =>
-            patch(urlKeys.patch.updateKeyword, data),
+        mutationFn: (data: KeywordSubmitType) => patch(urlKeys.patch.updateKeyword, data),
         onSuccess: () => {
-            console.log("Keyword added successfully");
+            toast.success("Ключовата дума е обновена успешно");
             queryClient.invalidateQueries({ queryKey: [queryKeys.keywords] });
         },
         onError: (error) => {
-            console.log("Error while adding keyword", error);
+            toast.error("Грешка при обновяване на ключова дума: " + error.message);
         },
     });
 };
