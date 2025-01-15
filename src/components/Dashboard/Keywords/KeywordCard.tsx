@@ -11,6 +11,7 @@ import useUpdateKeyword from "./hooks/useUpdateKeyword";
 import cn from "@/util/cn";
 import { ReactComponent as Pencil } from "@/assets/svgs/pencil.svg";
 import { ReactComponent as Trash } from "@/assets/svgs/trash.svg";
+import useDeleteKeyword from "./hooks/useDeleteKeyword";
 
 type KeyWordCardProps = KeywordType & { keyWordFilter: string; checked: boolean };
 
@@ -39,6 +40,9 @@ const KeyWordCard = (props: KeyWordCardProps) => {
 
     // useUpdateKeyword hook to update the keyword
     const { mutate: updateKeyword, isError, error } = useUpdateKeyword();
+
+    // useDeleteKeyword hook to delete the keyword
+    const { mutate: deleteKeyword } = useDeleteKeyword();
 
     // react-hook-form hook to handle
     const {
@@ -189,6 +193,7 @@ const KeyWordCard = (props: KeyWordCardProps) => {
                     <div className="flex justify-end items-center space-x-2 px-5">
                         <button
                             type="button"
+                            onClick={()=> deleteKeyword(props.id)}
                             className="p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4"
                         >
                             Изтрии
