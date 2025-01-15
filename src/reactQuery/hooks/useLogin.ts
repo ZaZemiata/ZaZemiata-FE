@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { urlKeys } from "@/reactQuery/constants";
 import { useLoginData } from "@/context/AuthContext";
@@ -23,7 +24,7 @@ const useLogin = () => {
             navigate("/");
         },
         onError: (error) => {
-            console.log(error.message);
+            toast.error(error.message);
         },
     });
 };

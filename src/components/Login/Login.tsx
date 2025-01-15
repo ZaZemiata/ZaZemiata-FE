@@ -17,7 +17,7 @@ type LoginFormDataType = {
 
 const Login = () => {
     // useLogin hook to login the user
-    const { mutate: login, error, isError, isPending } = useLogin();
+    const { mutate: login, isPending } = useLogin();
 
     // state to toggle the password visibility
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -84,7 +84,6 @@ const Login = () => {
                     <button className="w-full p-3 bg-[#0d381e] rounded-xl justify-center items-center gap-2 inline-flex text-[#f9f8f7] text-sm font-medium leading-4 mt-4 mb-8">
                         Вход
                     </button>
-                    {isError && <span className="text-red-500 text-sm">{error?.message}</span>}
                 </form>
             </div>
         </div>

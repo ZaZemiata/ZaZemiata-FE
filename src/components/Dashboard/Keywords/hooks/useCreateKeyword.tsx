@@ -1,21 +1,21 @@
-import { queryClient } from "@/reactQuery/queryClient";
+import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
 
+import { queryClient } from "@/reactQuery/queryClient";
 import { queryKeys, urlKeys } from "@/reactQuery/constants";
 import httpService from "@/reactQuery/httpService";
-import { useMutation } from "@tanstack/react-query";
 import { KeywordSubmitType } from "../types";
 
 const { post } = httpService();
 const useCreateKeyword = () => {
     return useMutation({
-        mutationFn: (data: KeywordSubmitType) =>
-            post(urlKeys.post.addKeyWord, data),
+        mutationFn: (data: KeywordSubmitType) => post(urlKeys.post.addKeyWord, data),
         onSuccess: () => {
-            console.log("Keyword added successfully");
+            toast.success("Ключовата дума е добавена успешно");
             queryClient.invalidateQueries({ queryKey: [queryKeys.keywords] });
         },
         onError: (error) => {
-            console.log("Error while adding keyword", error);
+            toast.error("Грешка при добавяне на ключова дума: " + error.message, { duration: 10000 });
         },
     });
 };

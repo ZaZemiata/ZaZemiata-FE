@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 import { urlKeys } from "@/reactQuery/constants";
 import { useLoginData } from "@/context/AuthContext";
@@ -21,7 +22,7 @@ const useRegister = () => {
             // navigate to the home page
         },
         onError: (error) => {
-            console.log(error.message);
+            toast.error(error.message);
         },
     });
 };
