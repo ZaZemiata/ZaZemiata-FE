@@ -38,7 +38,7 @@ const Login = () => {
     };
 
     return (
-        <div className="flex flex-grow items-center justify-center bg-gradient-to-l from-[#19ad52] via-[#c2e9d1] to-white overflow-hidden">
+        <div className="flex flex-grow items-center justify-center bg-gradient-to-t lg:bg-gradient-to-l from-[#19ad52] via-[#c2e9d1] to-white overflow-hidden">
             <div className="max-w-6xl grid grid-cols-1 lg:grid-cols-[auto_410px] gap-8 lg:gap-24 mx-4">
                 <Logo className="w-full h-full" />
                 <form onSubmit={handleSubmit(onSubmit)}>
