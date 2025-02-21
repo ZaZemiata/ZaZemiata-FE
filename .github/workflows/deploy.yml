@@ -1,0 +1,64 @@
+name: Deploy Application
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types:
+      - closed
+
+env:
+  HETZNER_INSTANCE_IP: ${{ secrets.HETZNER_INSTANCE_IP }}
+  HETZNER_USER: ${{ secrets.HETZNER_USER }}
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-24.04
+    environment: ${{ github.event.inputs.branch == 'main' && 'production' || 'stage' }}
+
+    steps:
+      - name: Checkout код
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Логин в GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Настройка на SSH ключ
+        env:
+          HETZNER_SSH_KEY_ACTIONS: ${{ secrets.HETZNER_SSH_KEY_ACTIONS }}
+        run: |
+          echo "$HETZNER_SSH_KEY_ACTIONS" > github_actions_key.pem
+          chmod 600 github_actions_key.pem
+
+      - name: Деплойване на Docker образи
+        run: |
+          FRONTEND_IMAGE_TAG="ghcr.io/zazemiata/zazemiata-fe:dev_latest"
+          ssh -i github_actions_key.pem -o StrictHostKeyChecking=no ${{ env.HETZNER_USER }}@${{ env.HETZNER_INSTANCE_IP }} << EOF
+            # Логин в GitHub Container Registry
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+            # Деплойване на фронтенд
+            docker pull $FRONTEND_IMAGE_TAG
+            docker stop frontend-container || true
+            docker rm frontend-container || true
+            docker create --name temp-container $FRONTEND_IMAGE_TAG
+            docker cp temp-container:/app/. /var/www/html/
+            docker rm temp-container
+            sudo nginx -s reload
+            if [ -f /var/www/html/index.html ]; then
+              echo "Фронтенд файловете са успешно разположени."
+            else
+              echo "Разполагането на фронтенда е неуспешно."
+              exit 1
+            fi
+           EOF
