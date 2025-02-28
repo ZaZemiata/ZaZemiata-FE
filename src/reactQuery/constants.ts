@@ -5,6 +5,7 @@ export const urlKeys = {
     get: {
         crawledData: "/api/crawled-data/filter",
         keywords: "/api/keywords",
+        sources: "/api/sources",
     },
     post: {
         login: "/login",
@@ -23,4 +24,5 @@ export const urlKeys = {
 export const queryKeys = {
     crawledData: "Crawled Data",
     keywords: "Keywords",
+    sources: "Sources",
 };
