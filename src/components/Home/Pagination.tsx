@@ -7,7 +7,11 @@ type PaginationProps = {
     handlePageChange: (newPage: number) => void;
 };
 
-const Pagination: React.FC<PaginationProps> = ({ page, totalPages, handlePageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+    page,
+    totalPages,
+    handlePageChange,
+}) => {
     const renderPaginationButtons = () => {
         // Variables to store the buttons
         const buttons = [];
@@ -43,7 +47,9 @@ const Pagination: React.FC<PaginationProps> = ({ page, totalPages, handlePageCha
                     key={i}
                     onClick={() => handlePageChange(i)}
                     className={cn(
-                        i === page ? "bg-[#19ad52] text-white" : "bg-[#ebecec] text-[#3b3b3b]",
+                        i === page
+                            ? "bg-[#19ad52] text-white"
+                            : "bg-[#ebecec] text-[#3b3b3b]",
                         "text-xs font-normal rounded-lg p-2 min-w-8 min-h-8"
                     )}
                 >
@@ -76,31 +82,37 @@ const Pagination: React.FC<PaginationProps> = ({ page, totalPages, handlePageCha
     };
 
     return (
-        <div className="flex justify-center items-center gap-3">
-            <button
-                disabled={page <= 1}
-                onClick={() => handlePageChange(page - 1)}
-                className={cn(
-                    page <= 1 ? "cursor-not-allowed" : "cursor-pointer",
-                    "text-[#3b3b3b] text-xs font-normal"
-                )}
-                aria-label="Previous Page"
-            >
-                Назад
-            </button>
-            {renderPaginationButtons()}
-            <button
-                disabled={page >= totalPages}
-                onClick={() => handlePageChange(page + 1)}
-                className={cn(
-                    page >= totalPages ? "cursor-not-allowed" : "cursor-pointer",
-                    "text-[#3b3b3b] text-xs font-normal"
-                )}
-                aria-label="Next Page"
-            >
-                Напред
-            </button>
-        </div>
+        <>
+            {totalPages > 0 && (
+                <div className="flex justify-center items-center gap-3">
+                    <button
+                        disabled={page <= 1}
+                        onClick={() => handlePageChange(page - 1)}
+                        className={cn(
+                            page <= 1 ? "cursor-not-allowed" : "cursor-pointer",
+                            "text-[#3b3b3b] text-xs font-normal"
+                        )}
+                        aria-label="Previous Page"
+                    >
+                        Назад
+                    </button>
+                    {renderPaginationButtons()}
+                    <button
+                        disabled={page >= totalPages}
+                        onClick={() => handlePageChange(page + 1)}
+                        className={cn(
+                            page >= totalPages
+                                ? "cursor-not-allowed"
+                                : "cursor-pointer",
+                            "text-[#3b3b3b] text-xs font-normal"
+                        )}
+                        aria-label="Next Page"
+                    >
+                        Напред
+                    </button>
+                </div>
+            )}
+        </>
     );
 };
 
