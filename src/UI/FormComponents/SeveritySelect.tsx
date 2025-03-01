@@ -17,7 +17,7 @@ const SeveritySelect = React.forwardRef<HTMLSelectElement, SeveritySelectProps>(
         return (
             <div className={cn(containerClassName || "", "w-full relative")}>
                 {showLabel && (
-                    <label htmlFor={field} className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                    <label htmlFor={field} className="mb-2 block text-sm font-medium text-gray-900">
                         {capitalizeFirstLetter(labelName ?? field)}
                     </label>
                 )}
