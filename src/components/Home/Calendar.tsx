@@ -49,7 +49,7 @@ const Calendar = ({ changeDate, selectedDate, currentDate }: CalendarProps) => {
                     </button>
                 </div>
             </div>
-            <div className="grid w-full grid-cols-7 text-gray-500 dark:text-gray-50">
+            <div className="grid w-full grid-cols-7 text-gray-500">
                 {days.map((day, index) => (
                     <div key={index} className="grid h-14 place-content-center">
                         <h1>{day}</h1>

@@ -30,7 +30,7 @@ const FormInput = <T extends FieldValues>({
     return (
         <div className="mt-2 pb-6 w-full relative">
             {showLabel && (
-                <label htmlFor={field} className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor={field} className="mb-2 block text-sm font-medium text-gray-900">
                     {capitalizeFirstLetter(labelName ?? field)}
                 </label>
             )}
