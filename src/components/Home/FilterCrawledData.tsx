@@ -144,7 +144,7 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
             {showFilters && (
                 <div
                     ref={filterRef}
-                    className="absolute space-y-2 top-9 right-0 z-10 mt-4 rounded-md border-2 border-gray-300 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-600"
+                    className="absolute space-y-2 top-9 right-0 z-10 mt-4 rounded-md border-2 border-gray-300 bg-gray-50 p-4"
                 >
                     <Calendar
                         changeDate={handleChangeDate}
