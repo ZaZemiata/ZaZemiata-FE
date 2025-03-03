@@ -156,7 +156,7 @@ const Home = () => {
                         type="text"
                         name="search"
                         defaultValue={initialSearch} // Restore search value
-                        placeholder="Search..."
+                        placeholder="Търсене..."
                         className="max-w-52 outline-none bg-inherit border-b border-gray-300 p-2 rounded-lg pl-10 text-white placeholder:text-white placeholder:opacity-70"
                     />
                     <Search className="w-6 h-6 absolute left-1" />
