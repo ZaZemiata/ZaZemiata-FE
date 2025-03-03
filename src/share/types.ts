@@ -40,3 +40,19 @@ export type RegisterFormDataType = {
     password: string;
     repassword: string;
 };
+
+export type QueryParams = {
+    containsText?: string;
+    sourceId?: string;
+    order: "asc" | "desc";
+    page: number;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateExact?: string;
+};
+
+export type UpdateParams = {
+    updateParams: (
+        newParams: Partial<QueryParams> | ((prev: QueryParams) => QueryParams)
+    ) => void;
+};

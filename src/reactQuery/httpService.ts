@@ -61,15 +61,15 @@ async function httpRequest<T, V>(options: RequestOptions<T>): Promise<V> {
 }
 
 // Function to build the query string
-function buildQueryString(params: Record<string, string | number | boolean>): string {
+function buildQueryString(params: Record<string, string | number | boolean | undefined>): string {
     // Create a new URLSearchParams object
     const query = new URLSearchParams();
 
     // Loop over the params object
     Object.keys(params).forEach((key) => {
         const value = params[key];
-        if (value !== null && value !== undefined) {
-            query.append(key, encodeURIComponent(value.toString()));
+        if (value && value) {
+            query.append(key, decodeURIComponent(value.toString()));
         }
     });
     return query.toString();
@@ -79,7 +79,7 @@ function buildQueryString(params: Record<string, string | number | boolean>): st
 export default function httpService(baseURL = "") {
     return {
         // Define the get method
-        get: async <V>(url: string, params?: Record<string, string | number | boolean>): Promise<V> => {
+        get: async <V>(url: string, params?: Record<string, string | number | boolean | undefined>): Promise<V> => {
             const queryString = params ? `?${buildQueryString(params)}` : "";
             return httpRequest<null, V>({ method: "GET", url: baseURL + url + queryString });
         },
