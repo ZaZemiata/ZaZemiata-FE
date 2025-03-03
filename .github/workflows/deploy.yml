@@ -53,7 +53,7 @@ jobs:
             docker stop frontend-container || true
             docker rm frontend-container || true
             docker create --name temp-container $FRONTEND_IMAGE_TAG
-            docker cp temp-container:/app/. /var/www/html/
+            docker cp temp-container:/app/.  /usr/share/nginx/html/
             docker rm temp-container
             sudo nginx -s reload
             if [ -f /var/www/html/index.html ]; then
