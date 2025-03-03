@@ -9,7 +9,7 @@ interface RequestOptions<T> {
     headers?: Record<string, string>;
 }
 
-const baseURL = import.meta.env.VITE_API_BASE_URL
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://167.235.148.192:3000' 
 
 async function httpRequest<T, V>(options: RequestOptions<T>): Promise<V> {
     // Get the options from the request
