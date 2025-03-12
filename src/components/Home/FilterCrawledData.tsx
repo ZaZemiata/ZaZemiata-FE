@@ -19,16 +19,14 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
     // Get filters from the URL
     const initialDateBefore = searchParams.get("dateBefore") || "";
     const initialDateAfter = searchParams.get("dateAfter") || "";
-    const initialSourceId = searchParams.get("sourceId") || "";
+    const initialSourceIds = searchParams.get("sourceId")?.split(",") || [];
     const initialDateExact = searchParams.get("dateExact") || "";
 
     // State for the filter dropdown
     const [showFilters, setShowFilters] = useState(false);
 
-    // State for selected source
-    const [selectedSource, setSelectedSource] = useState<string | undefined>(
-        initialSourceId || undefined
-    );
+    // State for selected sources
+    const [selectedSources, setSelectedSources] = useState<string[]>(initialSourceIds);
 
     // Reference for focus handling
     const filterRef = useRef<HTMLDivElement>(null);
@@ -67,9 +65,16 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
         });
     };
 
-    // Function to select a source
+    // Function to select/deselect a source
     const selectSource = useCallback((id: string) => {
-        setSelectedSource((prev) => (prev === id ? undefined : id));
+        setSelectedSources(prev => {
+            const isSelected = prev.includes(id);
+            if (isSelected) {
+                return prev.filter(sourceId => sourceId !== id);
+            } else {
+                return [...prev, id];
+            }
+        });
     }, []);
 
     // Memoized current date
@@ -86,7 +91,22 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
             dateAfter: selectedDate.startDate
                 ? dayjs(selectedDate.startDate).format("YYYY-MM-DD")
                 : "",
-            sourceId: selectedSource || "",
+            sourceId: selectedSources.join(","),
+        };
+
+        updateFiltersInURL(filters);
+        updateParams(filters);
+    };
+
+    // Function to clear filters
+    const handleClearFilters = () => {
+        setSelectedDate({ startDate: "", endDate: "" });
+        setSelectedSources([]);
+
+        const filters = {
+            dateBefore: "",
+            dateAfter: "",
+            sourceId: "",
         };
 
         updateFiltersInURL(filters);
@@ -133,6 +153,9 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
         };
     }, []);
 
+    // Check if any filters are active
+    const hasActiveFilters = selectedSources.length > 0 || selectedDate.startDate || selectedDate.endDate;
+
     return (
         <div className="relative">
             <V2
@@ -153,7 +176,7 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
                     />
                     <SourceList
                         selectSource={selectSource}
-                        selectedSource={selectedSource}
+                        selectedSources={selectedSources}
                     />
                     <div className="flex justify-center gap-2 pt-3 border-t border-[#b8e6c9]">
                         <button
@@ -168,6 +191,14 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
                         >
                             Приложи
                         </button>
+                        {hasActiveFilters && (
+                            <button
+                                onClick={handleClearFilters}
+                                className="p-3 rounded-xl border border-[#19ad52] justify-center items-center gap-2 inline-flex text-[#0e381e] text-sm font-normal hover:bg-[#f3f9f5]"
+                            >
+                                Изчисти
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
