@@ -41,8 +41,8 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
         startDate: initialDateAfter
             ? dayjs(initialDateAfter)
             : initialDateExact
-            ? dayjs(initialDateExact)
-            : "",
+                ? dayjs(initialDateExact)
+                : "",
         endDate: initialDateBefore ? dayjs(initialDateBefore) : "",
     });
 
@@ -93,6 +93,21 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
         updateParams(filters);
     };
 
+    // Function to clear filters
+    const handleClearFilters = () => {
+        setSelectedDate({ startDate: "", endDate: "" });
+        setSelectedSource(undefined);
+
+        const filters = {
+            dateBefore: "",
+            dateAfter: "",
+            sourceId: "",
+        };
+
+        updateFiltersInURL(filters);
+        updateParams(filters);
+    };
+
     // Function to handle date selection
     const handleChangeDate = useCallback((date: Dayjs) => {
         setSelectedDate((prev) => {
@@ -133,6 +148,9 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
         };
     }, []);
 
+    // Check if any filters are active
+    const hasActiveFilters = selectedSource || selectedDate.startDate || selectedDate.endDate;
+
     return (
         <div className="relative">
             <V2
@@ -168,6 +186,14 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
                         >
                             Приложи
                         </button>
+                        {hasActiveFilters && (
+                            <button
+                                onClick={handleClearFilters}
+                                className="px-3 py-1.5 rounded-xl border border-[#19ad52] text-[#0e381e] text-sm font-normal hover:bg-[#f3f9f5]"
+                            >
+                                Изчисти
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
