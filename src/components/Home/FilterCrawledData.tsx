@@ -39,8 +39,8 @@ const FilterCrawledData = ({ updateParams }: FilterCrawledDataProps) => {
         startDate: initialDateAfter
             ? dayjs(initialDateAfter)
             : initialDateExact
-            ? dayjs(initialDateExact)
-            : "",
+                ? dayjs(initialDateExact)
+                : "",
         endDate: initialDateBefore ? dayjs(initialDateBefore) : "",
     });
 
