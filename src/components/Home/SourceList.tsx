@@ -3,10 +3,10 @@ import useGetSources from "./hooks/useGetSources";
 
 type SourceListProps = {
     selectSource: (id: string) => void;
-    selectedSource: string | undefined;
+    selectedSources: string[];
 };
 
-const SourceList = ({ selectSource, selectedSource }: SourceListProps) => {
+const SourceList = ({ selectSource, selectedSources }: SourceListProps) => {
     const { data: sources } = useGetSources();
 
     const sourceList = sources?.reduce<{ label: string; value: string }[]>(
@@ -35,7 +35,7 @@ const SourceList = ({ selectSource, selectedSource }: SourceListProps) => {
                     onClick={() => selectSource(source.value)}
                     className={cn(
                         "px-3 py-1.5 rounded-2xl border border-[#95d9af] text-[#0e381e] text-[15px] font-normal text-center hover:bg-[#B8E6C9] transform-gpu delay-100",
-                        selectedSource === source.value
+                        selectedSources.includes(source.value)
                             ? "bg-[#B8E6C9]"
                             : "bg-white"
                     )}
