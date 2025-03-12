@@ -5,7 +5,9 @@ export type CrawledData = {
     date: Date;
     created_at: Date;
     source_url_id: string;
+    sourceArticle: string | null;
     SourceUrls: {
+        url: string;
         Sources: {
             display_name: string;
         };
