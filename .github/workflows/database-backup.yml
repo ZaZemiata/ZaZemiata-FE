@@ -1,0 +1,32 @@
+name: Database Backup
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Изпълнява се всеки ден в 02:00 UTC
+
+env:
+  HETZNER_INSTANCE_IP: ${{ secrets.HETZNER_INSTANCE_IP }}
+  HETZNER_USER: ${{ secrets.HETZNER_USER }}
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    name: Backup Database
+    runs-on: ubuntu-24.04
+    environment: production
+
+    steps:
+      - name: Настройка на SSH ключ
+        env:
+          HETZNER_SSH_KEY_ACTIONS: ${{ secrets.HETZNER_SSH_KEY_ACTIONS }}
+        run: |
+          echo "$HETZNER_SSH_KEY_ACTIONS" > github_actions_key.pem
+          chmod 600 github_actions_key.pem
+
+      - name: Изпълнение на бекъп скрипт
+        run: |
+          ssh -i github_actions_key.pem -o StrictHostKeyChecking=no ${{ env.HETZNER_USER }}@${{ env.HETZNER_INSTANCE_IP }} << EOF
+            bash /var/www/html/.github/workflows/backup-database.sh
+          EOF
