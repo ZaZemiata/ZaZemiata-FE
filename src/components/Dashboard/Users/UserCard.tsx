@@ -1,6 +1,7 @@
 import { User } from "./types";
 import useDeleteUsers from "./hooks/useDeleteUsers";
 import { useState } from "react";
+import formatDate from "./utils/formatDate";
 
 type UserCardProps = User & { userFilter: string };
 
@@ -33,13 +34,7 @@ const UserCard = ({ email, is_admin, createdAt, id, userFilter }: UserCardProps)
                 )}
             </div>
             <p className="px-5">{is_admin ? 'Админ' : 'Потребител'}</p>
-            <p className="px-5">{new Date(createdAt).toLocaleDateString('bg-BG', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            })}</p>
+            <p className="px-5">{formatDate(createdAt)}</p>
             <div className="px-5 text-end">
                 <button
                     onClick={handleDelete}
