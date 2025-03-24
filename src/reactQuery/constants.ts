@@ -6,6 +6,7 @@ export const urlKeys = {
         crawledData: "/api/crawled-data/filter",
         keywords: "/api/keywords",
         sources: "/api/sources",
+        users: "/api/users",
     },
     post: {
         login: "/login",
@@ -16,7 +17,8 @@ export const urlKeys = {
         updateKeyword: "/api/keyword/update"
     },
     delete: {
-        deleteKeyword: "/api/keyword/delete/"
+        deleteKeyword: "/api/keyword/delete/",
+        deleteUser: "/api/users/delete/"
     }
 };
 
@@ -25,4 +27,5 @@ export const queryKeys = {
     crawledData: "Crawled Data",
     keywords: "Keywords",
     sources: "Sources",
+    users: "Users",
 };
