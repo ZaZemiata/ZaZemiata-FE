@@ -4,6 +4,7 @@ import httpService from "@/reactQuery/httpService";
 import { queryKeys, urlKeys } from "@/reactQuery/constants";
 import { CrawledDataFilter, QueryParams } from "@/share/types";
 import areObjectsEqual from "@/util/areObjectEqual";
+import useExcelExport from "./useExcelExport";
 
 const { get } = httpService();
 
@@ -54,6 +55,9 @@ const useGetCrawledData = ({ page, limit }: useGetCrawledDataProps) => {
         ];
     }, [params, limit]);
 
+    // Get the export function and loading state
+    const { exportExcel, isExporting } = useExcelExport(params);
+
     const {
         data: crawledData,
         isError,
@@ -96,6 +100,8 @@ const useGetCrawledData = ({ page, limit }: useGetCrawledDataProps) => {
         params,
         updateParams,
         isLoading,
+        exportExcel,
+        isExporting,
     };
 };
 

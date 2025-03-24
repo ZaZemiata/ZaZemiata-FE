@@ -17,7 +17,7 @@ const Home = () => {
 
     // Get the current URL parameters
     const [searchParams, setSearchParams] = useSearchParams();
-    
+
     const page = Number(searchParams.get("page")) || 1;
 
     // Get the initial filters from the URL
@@ -35,12 +35,11 @@ const Home = () => {
     const [activeSort, setActiveSort] = useState(false);
 
     // Fetch the data with filters from the URL
-    const { crawledData, isError, isPlaceholderData, updateParams, isLoading } =
+    const { crawledData, isError, isPlaceholderData, updateParams, exportExcel, isExporting, isLoading } =
         useGetCrawledData({
             page,
             limit,
         });
-
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -145,6 +144,14 @@ const Home = () => {
         updateParams({ ...filters, page: 1 });
     };
 
+    // Handle export to Excel
+    const handleExcelExport = async () => {
+        const result = await exportExcel();
+        if (!result.success && result.error) {
+            console.error('Export failed:', result.error);
+        }
+    };
+
     return (
         <div className="flex flex-col items-center gap-6 my-6 w-[75rem] m-auto relative">
             <div className="bg-[#19ad52] w-full py-3 rounded-[20px] flex justify-between items-center px-10">
@@ -163,6 +170,13 @@ const Home = () => {
                     <button className="text-white">Търси</button>
                 </form>
                 <div className="flex gap-4 items-center mr-4 relative">
+                    <button 
+                        onClick={handleExcelExport} 
+                        className="text-white"
+                        disabled={isExporting}
+                    >
+                        {isExporting ? 'Exporting...' : 'Export'}
+                    </button>
                     <FilterCrawledData updateParams={handleFilterChange} />
                     <div ref={sortRef} className="relative">
                         <SortDescending
