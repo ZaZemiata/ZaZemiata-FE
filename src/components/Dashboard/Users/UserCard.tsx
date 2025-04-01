@@ -4,10 +4,10 @@ import { useState } from "react";
 import formatDate from "./utils/formatDate";
 import { ReactComponent as Trash } from "@/assets/svgs/trash.svg";
 
-
 type UserCardProps = User & { userFilter: string };
 
-const UserCard = ({ email, is_admin, createdAt, id, userFilter }: UserCardProps) => {
+
+const UserCard = ({ email, is_admin, created_at, id, userFilter }: UserCardProps) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const { mutate: deleteUser } = useDeleteUsers();
 
@@ -17,7 +17,7 @@ const UserCard = ({ email, is_admin, createdAt, id, userFilter }: UserCardProps)
             deleteUser(BigInt(id));
         }
     };
-
+    console.log(is_admin);
     // Define regex and parts conditionally
     const regex = userFilter.trim() ? new RegExp(`(${userFilter})`, "gi") : null;
     const parts = regex ? email.split(regex) : [email];
@@ -36,12 +36,12 @@ const UserCard = ({ email, is_admin, createdAt, id, userFilter }: UserCardProps)
                 )}
             </div>
             <p className="px-5">{is_admin ? 'Админ' : 'Потребител'}</p>
-            <p className="px-5">{formatDate(createdAt)}</p>
+            <p className="px-5">{formatDate(created_at)}</p>
             <div className="px-5 text-end">
                 <button
                     type="button"
                     onClick={handleDelete}
-                    disabled={isDeleting}
+                    disabled={isDeleting || is_admin === "true"}
                     aria-label="Delete"
                 >
                     <Trash />
