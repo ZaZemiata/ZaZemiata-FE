@@ -17,7 +17,7 @@ const UserCard = ({ email, is_admin, created_at, id, userFilter }: UserCardProps
             deleteUser(BigInt(id));
         }
     };
-    console.log(is_admin);
+    
     // Define regex and parts conditionally
     const regex = userFilter.trim() ? new RegExp(`(${userFilter})`, "gi") : null;
     const parts = regex ? email.split(regex) : [email];
@@ -41,7 +41,7 @@ const UserCard = ({ email, is_admin, created_at, id, userFilter }: UserCardProps
                 <button
                     type="button"
                     onClick={handleDelete}
-                    disabled={isDeleting || is_admin === "true"}
+                    disabled={isDeleting || !!is_admin}
                     aria-label="Delete"
                 >
                     <Trash />
