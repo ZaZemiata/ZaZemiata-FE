@@ -2,6 +2,8 @@ import { User } from "./types";
 import useDeleteUsers from "./hooks/useDeleteUsers";
 import { useState } from "react";
 import formatDate from "./utils/formatDate";
+import { ReactComponent as Trash } from "@/assets/svgs/trash.svg";
+
 
 type UserCardProps = User & { userFilter: string };
 
@@ -37,11 +39,12 @@ const UserCard = ({ email, is_admin, createdAt, id, userFilter }: UserCardProps)
             <p className="px-5">{formatDate(createdAt)}</p>
             <div className="px-5 text-end">
                 <button
+                    type="button"
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 disabled:bg-red-300"
+                    aria-label="Delete"
                 >
-                    {isDeleting ? 'Изтривам...' : 'Изтрий'}
+                    <Trash />
                 </button>
             </div>
         </div>
