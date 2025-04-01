@@ -13,6 +13,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import Register from "./components/Dashboard/Register/Register";
 import Keywords from "./components/Dashboard/Keywords/Keywords";
 import Settings from "./components/Dashboard/Settings/Settings";
+import Users from "./components/Dashboard/Users/Users";
 import { restrictDashboard, restrictLoginPage } from "./guards";
 
 const router = createBrowserRouter(
@@ -50,6 +51,10 @@ const router = createBrowserRouter(
                         {
                             path: "settings",
                             element: <Settings />,
+                        },
+                        {
+                            path: "users",
+                            element: <Users />,
                         },
                     ],
                 },

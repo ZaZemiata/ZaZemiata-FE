@@ -27,7 +27,11 @@ const AdminNav: React.FC = () => {
     ];
 
     // tabs for admin
-    const adminTabs = [{ name: "Register User", path: "/dashboard/register", tab: "register" }, ...baseTabs];
+    const adminTabs = [
+        { name: "Register User", path: "/dashboard/register", tab: "register" },
+        { name: "Users", path: "/dashboard/users", tab: "users" },
+        ...baseTabs
+    ];
 
     // set the tabs based on the user data
     const tabs = userData.is_admin ? adminTabs : baseTabs;
